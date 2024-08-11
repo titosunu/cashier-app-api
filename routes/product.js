@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const ProductController = require("../app/controller/product.controller");
+const ProductValidator = require("../app/validator/product.validator");
 
 const AuthMiddleware = require("../middleware/auth.middleware");
 
@@ -61,7 +62,12 @@ const AuthMiddleware = require("../middleware/auth.middleware");
  *       500:
  *         description: Internal Server Error!
  */
-router.get("/products", AuthMiddleware, ProductController.index);
+router.get(
+  "/products",
+  AuthMiddleware,
+  ProductValidator.index,
+  ProductController.index
+);
 
 // Get product by ID
 /**
@@ -127,7 +133,12 @@ router.get("/products", AuthMiddleware, ProductController.index);
  *       500:
  *         description: Internal Server Error!
  */
-router.get("/products/:id", AuthMiddleware, ProductController.show);
+router.get(
+  "/products/:id",
+  AuthMiddleware,
+  ProductValidator.show,
+  ProductController.show
+);
 
 // Add new Product
 /**
@@ -208,7 +219,12 @@ router.get("/products/:id", AuthMiddleware, ProductController.show);
  *       500:
  *         description: Internal Server Error!
  */
-router.post("/products", AuthMiddleware, ProductController.store);
+router.post(
+  "/products",
+  AuthMiddleware,
+  ProductValidator.store,
+  ProductController.store
+);
 
 // Update a Product
 /**
@@ -294,7 +310,12 @@ router.post("/products", AuthMiddleware, ProductController.store);
  *       500:
  *         description: Internal Server Error!
  */
-router.put("/products/:id", AuthMiddleware, ProductController.update);
+router.put(
+  "/products/:id",
+  AuthMiddleware,
+  ProductValidator.update,
+  ProductController.update
+);
 
 // Delete a Product
 /**
@@ -322,6 +343,11 @@ router.put("/products/:id", AuthMiddleware, ProductController.update);
  *       500:
  *         description: Internal Server Error!
  */
-router.delete("/products/:id", AuthMiddleware, ProductController.destroy);
+router.delete(
+  "/products/:id",
+  AuthMiddleware,
+  ProductValidator.destroy,
+  ProductController.destroy
+);
 
 module.exports = router;

@@ -5,9 +5,9 @@ const addFormats = require("ajv-formats");
 
 Model.knex(db);
 
-class Category extends Model {
+class Transaction extends Model {
   static get tableName() {
-    return "categories";
+    return "transactions";
   }
 
   static createValidator() {
@@ -26,36 +26,40 @@ class Category extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-
-      required: ["name"],
+      required: ["total_amount", "user_id"],
 
       properties: {
         id: { type: "integer" },
-        name: { type: "string" },
-        created_at: { type: "string", format: "date" },
-        updated_at: { type: "string", format: "date" },
+        user_id: { type: "integer" },
+        total_amount: { type: "number" },
+        transaction_date: { type: "string", format: "date" },
       },
     };
   }
 
   static relationMappings = {
-    products: {
+    details: {
       relation: Model.HasManyRelation,
-      modelClass: () => require("./product.model"),
+      modelClass: () => require("./transaction.detail.model"),
       join: {
-        from: "categories.id",
-        to: "products.category_id",
+        from: "transactions.id",
+        to: "transaction_details.transaction_id",
+      },
+    },
+
+    user: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: () => require("./auth.model"),
+      join: {
+        from: "transactions.user_id",
+        to: "users.id",
       },
     },
   };
 
   $beforeInsert() {
-    this.created_at = new Date().toISOString();
-  }
-
-  $beforeUpdate() {
-    this.updated_at = new Date().toISOString();
+    this.transaction_date = new Date().toISOString();
   }
 }
 
-module.exports = Category;
+module.exports = Transaction;

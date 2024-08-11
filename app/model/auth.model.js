@@ -25,6 +25,17 @@ class User extends Model {
     };
   }
 
+  static relationMappings = {
+    transactions: {
+      relation: Model.HasManyRelation,
+      modelClass: () => require("./transaction.model"),
+      join: {
+        from: "users.id",
+        to: "transactions.user_id",
+      },
+    },
+  };
+
   $beforeInsert() {
     this.created_at = new Date().toISOString();
   }

@@ -1,7 +1,5 @@
 const db = require("../../config/database");
 
-const Category = require("./category.model");
-
 const { Model, AjvValidator } = require("objection");
 const addFormats = require("ajv-formats");
 
@@ -46,10 +44,19 @@ class Product extends Model {
   static relationMappings = {
     category: {
       relation: Model.BelongsToOneRelation,
-      modelClass: Category,
+      modelClass: () => require("./category.model"),
       join: {
         from: "products.category_id",
         to: "categories.id",
+      },
+    },
+
+    transactions: {
+      relation: Model.HasManyRelation,
+      modelClass: () => require("./transaction.detail.model"),
+      join: {
+        from: "products.id",
+        to: "transaction_details.product_id",
       },
     },
   };

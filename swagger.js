@@ -4,7 +4,7 @@ const swaggerJsdoc = require("swagger-jsdoc");
 exports.swagger = (app) => {
   const options = {
     definition: {
-      servers: [{ url: "/" }],
+      servers: [{ url: "http://localhost:4000" }],
       openapi: "3.0.0",
       info: {
         title: "Warmad Cashier App",

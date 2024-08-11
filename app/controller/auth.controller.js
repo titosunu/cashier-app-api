@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
 
-const User = require("../model/user.model");
+const User = require("../model/auth.model");
 
 // login cashier
 const login = async (req, res) => {

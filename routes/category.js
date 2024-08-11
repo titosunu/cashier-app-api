@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const CategoryController = require("../app/controller/category.contoller");
+const CategoryController = require("../app/controller/category.controller");
 const CategoryValidator = require("../app/validator/category.validator");
 
 const AuthMiddleware = require("../middleware/auth.middleware");

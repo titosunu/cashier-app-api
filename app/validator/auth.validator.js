@@ -1,6 +1,6 @@
 const { check, validationResult } = require("express-validator");
 
-const User = require("../model/user.model");
+const User = require("../model/auth.model");
 
 const login = [
   check("username")
