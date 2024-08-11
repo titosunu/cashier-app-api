@@ -42,7 +42,7 @@ Run Application
 
 > nodemon start
 
-open http://localhost:8080 to make sure it's work
+open http://localhost:4000 to make sure it's work
 
 ## Features
 
