@@ -56,7 +56,7 @@ Run Prettier to tidy up your code
 
 > npm run prettier
 
-#### Schema
+## Schema
 
 ![Database Schema](https://i.ibb.co.com/QPQTffP/Whats-App-Image-2024-08-09-at-13-35-26.jpg)
 
