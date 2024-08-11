@@ -48,7 +48,7 @@ open http://localhost:4000 to make sure it's work
 
 #### Swagger API Documentations
 
-This project comes with documentation using [Swagger](https://swagger.io/). go here http://localhost:8080/docs to see it
+This project comes with documentation using [Swagger](https://swagger.io/). go here http://localhost:4000/docs to see it
 
 #### Prettier
 
