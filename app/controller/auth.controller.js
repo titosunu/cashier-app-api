@@ -45,6 +45,16 @@ const login = async (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  try {
+    sendSuccessResponse(res, 200, 'Logout successful!');
+  } catch (error) {
+    console.error(error);
+    sendErrorResponse(res, 500, 'Internal Server Error!');
+  }
+};
+
 module.exports = {
   login,
+  logout,
 };

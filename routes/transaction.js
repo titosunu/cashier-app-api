@@ -288,13 +288,25 @@ router.post(
  *           type: integer
  *           example: 1
  *     responses:
- *       200:
+ *       '200':
  *         description: Success delete!
- *       404:
- *         description: Transaction not found
- *       500:
- *         description: Internal Server Error!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Success delete!
+ *       '422':
+ *         description: Validation error
+ *       '500':
+ *         description: Internal Server Error
  */
+
 router.delete(
   '/transactions/:id',
   AuthMiddleware,

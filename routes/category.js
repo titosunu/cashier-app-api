@@ -11,17 +11,49 @@ const AuthMiddleware = require('../middleware/auth.middleware');
 /**
  * @openapi
  * /categories:
- *  get:
+ *   get:
  *     tags:
- *     - Category
+ *       - Category
  *     summary: Get all categories
  *     security:
- *	     - bearerAuth: []
+ *       - bearerAuth: []
  *     responses:
- *      200:
- *        description: List of categories
- *      500:
- *        description: Internal Server Error!
+ *       '200':
+ *         description: List of categories
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: OK!
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         example: Makanan
+ *                       created_at:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2024-08-11T14:23:02.000Z
+ *                       updated_at:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2024-08-11T14:23:02.000Z
+ *       '500':
+ *         description: Internal Server Error
+ *       '404':
+ *         description: No categories found!
  */
 router.get('/categories', AuthMiddleware, CategoryController.index);
 
@@ -29,26 +61,55 @@ router.get('/categories', AuthMiddleware, CategoryController.index);
 /**
  * @openapi
  * /categories/{id}:
- *  get:
+ *   get:
  *     tags:
- *     - Category
+ *       - Category
  *     summary: Get category by ID
  *     security:
- *	     - bearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         description: ID of the category
  *         schema:
- *           type: string
+ *           type: integer
+ *           example: 1
  *     responses:
- *      200:
- *        description: Category data
- *      404:
- *        description: Category not found
- *      500:
- *        description: Internal Server Error!
+ *       '200':
+ *         description: Category data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: OK!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: Makanan
+ *                     created_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: 2024-08-11T14:23:02.000Z
+ *                     updated_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: 2024-08-11T14:23:02.000Z
+ *       '422':
+ *         description: Validation error
+ *       '500':
+ *         description: Internal Server Error
  */
 router.get(
   '/categories/:id',
@@ -62,30 +123,61 @@ router.get(
 /**
  * @openapi
  * /categories:
- *  post:
+ *   post:
  *     tags:
- *     - Category
+ *       - Category
  *     summary: Add a new category
  *     security:
- *	     - bearerAuth: []
+ *       - bearerAuth: []
  *     requestBody:
- *      required: true
- *      content:
+ *       required: true
+ *       content:
  *         application/json:
  *           schema:
- *            type: object
- *            required:
- *              - name
- *            properties:
- *              name:
- *               type: string
- *               example: minuman
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Bumbu
  *     responses:
- *      200:
- *        description: Success create!
- *      500:
- *        description: Internal Server Error!
+ *       '200':
+ *         description: Success create!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Category created successfully!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: Bumbu
+ *                     created_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: 2024-08-11T14:23:02.000Z
+ *                     updated_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: 2024-08-11T14:23:02.000Z
+ *       '500':
+ *         description: Internal Server Error
+ *       '422':
+ *         description: Validation error
  */
+
 router.post(
   '/categories',
   AuthMiddleware,
@@ -98,36 +190,65 @@ router.post(
 /**
  * @openapi
  * /categories/{id}:
- *  put:
+ *   put:
  *     tags:
- *     - Category
+ *       - Category
  *     summary: Update a category by ID
  *     security:
- *	     - bearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         description: ID of the category
  *         schema:
- *           type: string
+ *           type: integer
+ *           example: 1
  *     requestBody:
- *      required: true
- *      content:
+ *       required: true
+ *       content:
  *         application/json:
  *           schema:
- *            type: object
- *            properties:
- *              name:
- *               type: string
- *               example: minuman
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Rokok
  *     responses:
- *      200:
- *        description: Success update!
- *      404:
- *        description: Category not found
- *      500:
- *        description: Internal Server Error!
+ *       '200':
+ *         description: Success update!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Category updated successfully!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: Rokok
+ *                     created_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: 2024-08-11T14:23:02.000Z
+ *                     updated_at:
+ *                       type: string
+ *                       format: date-time
+ *                       example: 2024-08-11T14:30:45.000Z
+ *       '422':
+ *         description: Validation error
+ *       '500':
+ *         description: Internal Server Error
  */
 router.put(
   '/categories/:id',
@@ -141,26 +262,38 @@ router.put(
 /**
  * @openapi
  * /categories/{id}:
- *  delete:
+ *   delete:
  *     tags:
- *     - Category
+ *       - Category
  *     summary: Delete a category by ID
  *     security:
- *	     - bearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
  *         description: ID of the category
  *         schema:
- *           type: string
+ *           type: integer
+ *           example: 1
  *     responses:
- *      200:
- *        description: Success delete!
- *      404:
- *        description: Category not found
- *      500:
- *        description: Internal Server Error!
+ *       '200':
+ *         description: Success delete!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Category deleted successfully!
+ *       '422':
+ *         description: Validation error
+ *       '500':
+ *         description: Internal Server Error
  */
 router.delete(
   '/categories/:id',

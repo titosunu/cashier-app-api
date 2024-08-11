@@ -5,6 +5,7 @@ const AuthController = require('../app/controller/auth.controller');
 const AuthValidator = require('../app/validator/auth.validator');
 
 const handleValidation = require('../middleware/error.handler.middleware');
+const AuthMiddleware = require('../middleware/auth.middleware');
 
 /**
  * @openapi
@@ -71,5 +72,7 @@ router.post(
   handleValidation,
   AuthController.login
 );
+
+router.get('/logout', AuthMiddleware, AuthController.logout);
 
 module.exports = router;

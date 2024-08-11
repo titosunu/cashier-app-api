@@ -18,7 +18,7 @@ const AuthMiddleware = require('../middleware/auth.middleware');
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       200:
+ *       '200':
  *         description: List of products
  *         content:
  *           application/json:
@@ -60,9 +60,12 @@ const AuthMiddleware = require('../middleware/auth.middleware');
  *                         type: string
  *                         format: date-time
  *                         example: "2024-08-10T12:00:00Z"
- *       500:
- *         description: Internal Server Error!
+ *       '404':
+ *         description: Products not found
+ *       '500':
+ *         description: Internal Server Error
  */
+
 router.get('/products', AuthMiddleware, ProductController.index);
 
 // Get product by ID
@@ -124,9 +127,9 @@ router.get('/products', AuthMiddleware, ProductController.index);
  *                       type: string
  *                       format: date-time
  *                       example: "2024-08-10T12:00:00Z"
- *       404:
- *         description: Product not found
- *       500:
+ *       '422':
+ *         description: Validation error
+ *       '500':
  *         description: Internal Server Error!
  */
 router.get(
@@ -213,7 +216,9 @@ router.get(
  *                       type: string
  *                       format: date-time
  *                       example: "2024-08-10T12:00:00Z"
- *       500:
+ *       '422':
+ *         description: Validation error
+ *       '500':
  *         description: Internal Server Error!
  */
 router.post(
@@ -303,9 +308,9 @@ router.post(
  *                       type: string
  *                       format: date-time
  *                       example: "2024-08-10T12:00:00Z"
- *       404:
- *         description: Product not found
- *       500:
+ *       '422':
+ *         description: Validation error
+ *       '500':
  *         description: Internal Server Error!
  */
 router.put(
@@ -335,12 +340,23 @@ router.put(
  *           type: integer
  *           example: 1
  *     responses:
- *       200:
+ *       '200':
  *         description: Success delete!
- *       404:
- *         description: Product not found
- *       500:
- *         description: Internal Server Error!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Success delete!
+ *       '422':
+ *         description: Validation error
+ *       '500':
+ *         description: Internal Server Error
  */
 router.delete(
   '/products/:id',
