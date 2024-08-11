@@ -1,57 +1,25 @@
-const { check, validationResult, param } = require("express-validator");
-const Product = require("../model/product.model");
-const User = require("../model/auth.model");
-const Transaction = require("../model/transaction.model");
-
-const index = [
-  async (req, res, next) => {
-    const transactions = await Transaction.query();
-    if (transactions.length === 0) {
-      return res.status(404).json({
-        errors: [
-          { item_name: "transactions", message: "No transactions found!" },
-        ],
-      });
-    }
-    req.transactions = transactions;
-    next();
-  },
-
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      let error_data = errors.array().map((error) => {
-        return {
-          item_name: error.param,
-          message: error.msg,
-        };
-      });
-
-      return res.status(422).json({
-        errors: error_data,
-      });
-    }
-    next();
-  },
-];
+const { check, validationResult, param } = require('express-validator');
+const Product = require('../model/product.model');
+const User = require('../model/auth.model');
+const Transaction = require('../model/transaction.model');
 
 const store = [
-  check("user_id")
+  check('user_id')
     .not()
     .isEmpty()
-    .withMessage("User ID cannot be empty!")
+    .withMessage('User ID cannot be empty!')
     .isInt()
-    .withMessage("User ID must be an integer!")
+    .withMessage('User ID must be an integer!')
     .custom(async (value) => {
       const user = await User.query().findById(value);
       if (!user) {
-        throw new Error("User not found!");
+        throw new Error('User not found!');
       }
     }),
 
-  check("products")
+  check('products')
     .isArray({ min: 1 })
-    .withMessage("Products cannot be empty!")
+    .withMessage('Products cannot be empty!')
     .custom(async (value) => {
       for (const item of value) {
         const product = await Product.query().findById(item.product_id);
@@ -68,85 +36,33 @@ const store = [
         }
       }
     }),
-
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      let error_data = errors.array().map((error) => {
-        return {
-          item_name: error.param,
-          message: error.msg,
-        };
-      });
-
-      return res.status(422).json({
-        errors: error_data,
-      });
-    }
-    next();
-  },
 ];
 
 const show = [
-  param("id")
+  param('id')
     .isInt()
-    .withMessage("ID must be an integer!")
+    .withMessage('ID must be an integer!')
     .custom(async (value) => {
       const transaction = await Transaction.query().findById(value);
       if (!transaction) {
-        throw new Error("Transaction not found!");
+        throw new Error('Transaction not found!');
       }
     }),
-
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      let error_data = errors.array().map((error) => {
-        return {
-          item_name: error.param,
-          message: error.msg,
-        };
-      });
-
-      return res.status(422).json({
-        errors: error_data,
-      });
-    }
-    next();
-  },
 ];
 
 const destroy = [
-  param("id")
+  param('id')
     .isInt()
-    .withMessage("ID must be an integer!")
+    .withMessage('ID must be an integer!')
     .custom(async (value) => {
       const transaction = await Transaction.query().findById(value);
       if (!transaction) {
-        throw new Error("Transaction not found!");
+        throw new Error('Transaction not found!');
       }
     }),
-
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      let error_data = errors.array().map((error) => {
-        return {
-          item_name: error.param,
-          message: error.msg,
-        };
-      });
-
-      return res.status(422).json({
-        errors: error_data,
-      });
-    }
-    next();
-  },
 ];
 
 module.exports = {
-  index,
   store,
   show,
   destroy,

@@ -1,13 +1,13 @@
-const db = require("../../config/database");
+const db = require('../../config/database');
 
-const { Model, AjvValidator } = require("objection");
-const addFormats = require("ajv-formats");
+const { Model, AjvValidator } = require('objection');
+const addFormats = require('ajv-formats');
 
 Model.knex(db);
 
 class Product extends Model {
   static get tableName() {
-    return "products";
+    return 'products';
   }
 
   static createValidator() {
@@ -25,18 +25,18 @@ class Product extends Model {
 
   static get jsonSchema() {
     return {
-      type: "object",
+      type: 'object',
 
-      required: ["name", "category_id", "price", "stock"],
+      required: ['name', 'category_id', 'price', 'stock'],
 
       properties: {
-        id: { type: "integer" },
-        name: { type: "string" },
-        category_id: { type: "integer" },
-        price: { type: "number" },
-        stock: { type: "integer" },
-        created_at: { type: "string", format: "date" },
-        updated_at: { type: "string", format: "date" },
+        id: { type: 'integer' },
+        name: { type: 'string' },
+        category_id: { type: 'integer' },
+        price: { type: 'number' },
+        stock: { type: 'integer' },
+        created_at: { type: 'string', format: 'date' },
+        updated_at: { type: 'string', format: 'date' },
       },
     };
   }
@@ -44,19 +44,19 @@ class Product extends Model {
   static relationMappings = {
     category: {
       relation: Model.BelongsToOneRelation,
-      modelClass: () => require("./category.model"),
+      modelClass: () => require('./category.model'),
       join: {
-        from: "products.category_id",
-        to: "categories.id",
+        from: 'products.category_id',
+        to: 'categories.id',
       },
     },
 
     transactions: {
       relation: Model.HasManyRelation,
-      modelClass: () => require("./transaction.detail.model"),
+      modelClass: () => require('./transaction.detail.model'),
       join: {
-        from: "products.id",
-        to: "transaction_details.product_id",
+        from: 'products.id',
+        to: 'transaction_details.product_id',
       },
     },
   };

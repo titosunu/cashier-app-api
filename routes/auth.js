@@ -1,42 +1,75 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const AuthController = require("../app/controller/auth.controller");
-const AuthValidator = require("../app/validator/auth.validator");
+const AuthController = require('../app/controller/auth.controller');
+const AuthValidator = require('../app/validator/auth.validator');
+
+const handleValidation = require('../middleware/error.handler.middleware');
 
 /**
  * @openapi
  * /login:
- *  post:
+ *   post:
  *     tags:
- *     - Login
- *     summary: Login Cashier
+ *     - Auth
+ *     summary: Cashier login
  *     requestBody:
- *      required: true
- *      content:
+ *       description: User credentials for login
+ *       required: true
+ *       content:
  *         application/json:
  *           schema:
- *            type: object
- *            required:
- *              - username
- *              - password
- *            properties:
- *              username:
- *               type: string
- *               example: admin
- *              password:
- *               type: string
- *               example: password
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: warmad01
+ *               password:
+ *                 type: string
+ *                 example: 2001warmad
+ *             required:
+ *               - username
+ *               - password
  *     responses:
- *      200:
- *        description: Login success!
- *      401:
- *        description: Invalid Credentials!
- *      404:
- *        description: User not found
- *      500:
- *        description: Internal Server Error!
+ *       '200':
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Login success!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     username:
+ *                       type: string
+ *                       example: warmad01
+ *                   required:
+ *                     - id
+ *                     - username
+ *                 token:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6...
+ *               required:
+ *                 - message
+ *                 - data
+ *                 - token
+ *       '401':
+ *         description: Invalid Credentials
+ *       '500':
+ *         description: Internal Server Error
  */
-router.post("/login", AuthValidator.login, AuthController.login);
+router.post(
+  '/login',
+  AuthValidator.login,
+  handleValidation,
+  AuthController.login
+);
 
 module.exports = router;

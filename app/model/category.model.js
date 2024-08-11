@@ -1,13 +1,13 @@
-const db = require("../../config/database");
+const db = require('../../config/database');
 
-const { Model, AjvValidator } = require("objection");
-const addFormats = require("ajv-formats");
+const { Model, AjvValidator } = require('objection');
+const addFormats = require('ajv-formats');
 
 Model.knex(db);
 
 class Category extends Model {
   static get tableName() {
-    return "categories";
+    return 'categories';
   }
 
   static createValidator() {
@@ -25,15 +25,15 @@ class Category extends Model {
 
   static get jsonSchema() {
     return {
-      type: "object",
+      type: 'object',
 
-      required: ["name"],
+      required: ['name'],
 
       properties: {
-        id: { type: "integer" },
-        name: { type: "string" },
-        created_at: { type: "string", format: "date" },
-        updated_at: { type: "string", format: "date" },
+        id: { type: 'integer' },
+        name: { type: 'string' },
+        created_at: { type: 'string', format: 'date' },
+        updated_at: { type: 'string', format: 'date' },
       },
     };
   }
@@ -41,10 +41,10 @@ class Category extends Model {
   static relationMappings = {
     products: {
       relation: Model.HasManyRelation,
-      modelClass: () => require("./product.model"),
+      modelClass: () => require('./product.model'),
       join: {
-        from: "categories.id",
-        to: "products.category_id",
+        from: 'categories.id',
+        to: 'products.category_id',
       },
     },
   };

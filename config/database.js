@@ -1,6 +1,6 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const knex = require("knex")({
+const knex = require('knex')({
   client: process.env.DB_CONNECTION,
   connection: {
     user: process.env.DB_USERNAME,
@@ -12,7 +12,7 @@ const knex = require("knex")({
   pool: { min: 50, max: 100 },
 });
 
-const { attachPaginate } = require("knex-paginate");
+const { attachPaginate } = require('knex-paginate');
 attachPaginate();
 
 module.exports = knex;

@@ -1,13 +1,13 @@
-const db = require("../../config/database");
+const db = require('../../config/database');
 
-const { Model, AjvValidator } = require("objection");
-const addFormats = require("ajv-formats");
+const { Model, AjvValidator } = require('objection');
+const addFormats = require('ajv-formats');
 
 Model.knex(db);
 
 class Transaction extends Model {
   static get tableName() {
-    return "transactions";
+    return 'transactions';
   }
 
   static createValidator() {
@@ -25,14 +25,14 @@ class Transaction extends Model {
 
   static get jsonSchema() {
     return {
-      type: "object",
-      required: ["total_amount", "user_id"],
+      type: 'object',
+      required: ['total_amount', 'user_id'],
 
       properties: {
-        id: { type: "integer" },
-        user_id: { type: "integer" },
-        total_amount: { type: "number" },
-        transaction_date: { type: "string", format: "date" },
+        id: { type: 'integer' },
+        user_id: { type: 'integer' },
+        total_amount: { type: 'number' },
+        transaction_date: { type: 'string', format: 'date' },
       },
     };
   }
@@ -40,19 +40,19 @@ class Transaction extends Model {
   static relationMappings = {
     details: {
       relation: Model.HasManyRelation,
-      modelClass: () => require("./transaction.detail.model"),
+      modelClass: () => require('./transaction.detail.model'),
       join: {
-        from: "transactions.id",
-        to: "transaction_details.transaction_id",
+        from: 'transactions.id',
+        to: 'transaction_details.transaction_id',
       },
     },
 
     user: {
       relation: Model.BelongsToOneRelation,
-      modelClass: () => require("./auth.model"),
+      modelClass: () => require('./auth.model'),
       join: {
-        from: "transactions.user_id",
-        to: "users.id",
+        from: 'transactions.user_id',
+        to: 'users.id',
       },
     },
   };

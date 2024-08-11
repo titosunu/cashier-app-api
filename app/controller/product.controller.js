@@ -1,19 +1,24 @@
-const Product = require("../model/product.model");
+const Product = require('../model/product.model');
+
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require('../../library/responseHelper');
 
 const index = async (req, res) => {
   try {
     const products = await Product.query();
 
-    res.status(200).json({
-      status: 200,
-      message: "OK!",
-      data: products,
-    });
+    if (products.length === 0) {
+      return sendErrorResponse(res, 404, 'No products found!', [
+        { item_name: 'products', message: 'No products found!' },
+      ]);
+    }
+
+    sendSuccessResponse(res, 200, 'OK!', products);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      message: "Internal Server Error!",
-    });
+    sendErrorResponse(res, 500, 'Internal Server Error!');
   }
 };
 
@@ -26,16 +31,10 @@ const store = async (req, res) => {
       stock: req.body.stock,
     });
 
-    res.status(200).json({
-      status: 200,
-      message: "Success create!",
-      data: product,
-    });
+    sendSuccessResponse(res, 201, 'Product created successfully!', product);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: "Internal Server Error!",
-    });
+    console.error(error);
+    sendErrorResponse(res, 500, 'Internal Server Error!');
   }
 };
 
@@ -43,16 +42,10 @@ const show = async (req, res) => {
   try {
     const product = await Product.query().findById(req.params.id);
 
-    res.status(200).json({
-      status: 200,
-      message: "OK!",
-      data: product,
-    });
+    sendSuccessResponse(res, 200, 'OK!', product);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
-      message: "Internal Server Error!",
-    });
+    sendErrorResponse(res, 500, 'Internal Server Error!');
   }
 };
 
@@ -65,33 +58,23 @@ const update = async (req, res) => {
       stock: req.body.stock,
     });
 
-    res.status(200).json({
-      status: 200,
-      message: "Success update!",
-      data: product,
-    });
+    sendSuccessResponse(res, 200, 'Product updated successfully!', product);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
-      message: "Internal Server Error!",
-    });
+    sendErrorResponse(res, 500, 'Internal Server Error!');
   }
 };
 
 const destroy = async (req, res) => {
   try {
-    const product = await Product.query().deleteById(req.params.id);
+    await Product.query().deleteById(req.params.id);
 
-    res.status(200).json({
-      status: 200,
-      message: "Success delete!",
-      data: product,
+    sendSuccessResponse(res, 200, 'Product deleted successfully!', {
+      id: req.params.id,
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
-      message: "Internal Server Error!",
-    });
+    sendErrorResponse(res, 500, 'Internal Server Error!');
   }
 };
 

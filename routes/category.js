@@ -1,10 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const CategoryController = require("../app/controller/category.controller");
-const CategoryValidator = require("../app/validator/category.validator");
+const CategoryController = require('../app/controller/category.controller');
+const CategoryValidator = require('../app/validator/category.validator');
 
-const AuthMiddleware = require("../middleware/auth.middleware");
+const handleValidation = require('../middleware/error.handler.middleware');
+const AuthMiddleware = require('../middleware/auth.middleware');
 
 // Get list of categories
 /**
@@ -22,12 +23,7 @@ const AuthMiddleware = require("../middleware/auth.middleware");
  *      500:
  *        description: Internal Server Error!
  */
-router.get(
-  "/categories",
-  AuthMiddleware,
-  CategoryValidator.index,
-  CategoryController.index
-);
+router.get('/categories', AuthMiddleware, CategoryController.index);
 
 // Get category by ID
 /**
@@ -55,9 +51,10 @@ router.get(
  *        description: Internal Server Error!
  */
 router.get(
-  "/categories/:id",
+  '/categories/:id',
   AuthMiddleware,
   CategoryValidator.show,
+  handleValidation,
   CategoryController.show
 );
 
@@ -90,9 +87,10 @@ router.get(
  *        description: Internal Server Error!
  */
 router.post(
-  "/categories",
+  '/categories',
   AuthMiddleware,
   CategoryValidator.store,
+  handleValidation,
   CategoryController.store
 );
 
@@ -132,9 +130,10 @@ router.post(
  *        description: Internal Server Error!
  */
 router.put(
-  "/categories/:id",
+  '/categories/:id',
   AuthMiddleware,
   CategoryValidator.update,
+  handleValidation,
   CategoryController.update
 );
 
@@ -164,9 +163,10 @@ router.put(
  *        description: Internal Server Error!
  */
 router.delete(
-  "/categories/:id",
+  '/categories/:id',
   AuthMiddleware,
   CategoryValidator.destroy,
+  handleValidation,
   CategoryController.destroy
 );
 

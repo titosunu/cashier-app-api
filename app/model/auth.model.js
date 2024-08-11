@@ -1,26 +1,26 @@
-const db = require("../../config/database");
+const db = require('../../config/database');
 
-const { Model } = require("objection");
+const { Model } = require('objection');
 
 Model.knex(db);
 
 class User extends Model {
   static get tableName() {
-    return "users";
+    return 'users';
   }
 
   static get jsonSchema() {
     return {
-      type: "object",
+      type: 'object',
 
-      required: ["username", "password"],
+      required: ['username', 'password'],
 
       properties: {
-        id: { type: "integer" },
-        username: { type: "string" },
-        password: { type: "string" },
-        created_at: { type: "string", format: "date-time" },
-        updated_at: { type: "string", format: "date-time" },
+        id: { type: 'integer' },
+        username: { type: 'string' },
+        password: { type: 'string' },
+        created_at: { type: 'string', format: 'date-time' },
+        updated_at: { type: 'string', format: 'date-time' },
       },
     };
   }
@@ -28,10 +28,10 @@ class User extends Model {
   static relationMappings = {
     transactions: {
       relation: Model.HasManyRelation,
-      modelClass: () => require("./transaction.model"),
+      modelClass: () => require('./transaction.model'),
       join: {
-        from: "users.id",
-        to: "transactions.user_id",
+        from: 'users.id',
+        to: 'transactions.user_id',
       },
     },
   };

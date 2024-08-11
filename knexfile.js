@@ -1,5 +1,5 @@
 // Update with your config settings.
-require("dotenv").config();
+require('dotenv').config();
 
 module.exports = {
   development: {
@@ -12,10 +12,10 @@ module.exports = {
       port: process.env.DB_PORT,
     },
     migrations: {
-      directory: __dirname + "/database/migrations",
+      directory: __dirname + '/database/migrations',
     },
     seeds: {
-      directory: __dirname + "/database/seeds",
+      directory: __dirname + '/database/seeds',
     },
   },
 };

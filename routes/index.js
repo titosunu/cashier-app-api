@@ -1,7 +1,7 @@
-const AuthRouter = require("./auth");
-const CategoryRouter = require("./category");
-const ProductRouter = require("./product");
-const TransactionRouter = require("./transaction");
+const AuthRouter = require('./auth');
+const CategoryRouter = require('./category');
+const ProductRouter = require('./product');
+const TransactionRouter = require('./transaction');
 
 const routes = (app, prefix) => {
   app.use(prefix, AuthRouter);

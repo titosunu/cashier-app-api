@@ -1,10 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const ProductController = require("../app/controller/product.controller");
-const ProductValidator = require("../app/validator/product.validator");
+const ProductController = require('../app/controller/product.controller');
+const ProductValidator = require('../app/validator/product.validator');
 
-const AuthMiddleware = require("../middleware/auth.middleware");
+const handleValidation = require('../middleware/error.handler.middleware');
+const AuthMiddleware = require('../middleware/auth.middleware');
 
 // Get all Products
 /**
@@ -62,12 +63,7 @@ const AuthMiddleware = require("../middleware/auth.middleware");
  *       500:
  *         description: Internal Server Error!
  */
-router.get(
-  "/products",
-  AuthMiddleware,
-  ProductValidator.index,
-  ProductController.index
-);
+router.get('/products', AuthMiddleware, ProductController.index);
 
 // Get product by ID
 /**
@@ -134,9 +130,10 @@ router.get(
  *         description: Internal Server Error!
  */
 router.get(
-  "/products/:id",
+  '/products/:id',
   AuthMiddleware,
   ProductValidator.show,
+  handleValidation,
   ProductController.show
 );
 
@@ -220,9 +217,10 @@ router.get(
  *         description: Internal Server Error!
  */
 router.post(
-  "/products",
+  '/products',
   AuthMiddleware,
   ProductValidator.store,
+  handleValidation,
   ProductController.store
 );
 
@@ -311,9 +309,10 @@ router.post(
  *         description: Internal Server Error!
  */
 router.put(
-  "/products/:id",
+  '/products/:id',
   AuthMiddleware,
   ProductValidator.update,
+  handleValidation,
   ProductController.update
 );
 
@@ -344,9 +343,10 @@ router.put(
  *         description: Internal Server Error!
  */
 router.delete(
-  "/products/:id",
+  '/products/:id',
   AuthMiddleware,
   ProductValidator.destroy,
+  handleValidation,
   ProductController.destroy
 );
 

@@ -1,10 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const TransactionController = require("../app/controller/transaction.controller");
-const TransactionValidator = require("../app/validator/transaction.validator");
+const TransactionController = require('../app/controller/transaction.controller');
+const TransactionValidator = require('../app/validator/transaction.validator');
 
-const AuthMiddleware = require("../middleware/auth.middleware");
+const AuthMiddleware = require('../middleware/auth.middleware');
+const handleValidation = require('../middleware/error.handler.middleware');
 
 // Get all Transactions
 /**
@@ -73,12 +74,7 @@ const AuthMiddleware = require("../middleware/auth.middleware");
  *       500:
  *         description: Internal Server Error!
  */
-router.get(
-  "/transactions",
-  AuthMiddleware,
-  TransactionValidator.index,
-  TransactionController.index
-);
+router.get('/transactions', AuthMiddleware, TransactionController.index);
 
 // Get transaction by ID
 /**
@@ -156,9 +152,10 @@ router.get(
  *         description: Internal Server Error!
  */
 router.get(
-  "/transactions/:id",
+  '/transactions/:id',
   AuthMiddleware,
   TransactionValidator.show,
+  handleValidation,
   TransactionController.show
 );
 
@@ -265,9 +262,10 @@ router.get(
  *         description: Internal Server Error!
  */
 router.post(
-  "/transactions",
+  '/transactions',
   AuthMiddleware,
   TransactionValidator.store,
+  handleValidation,
   TransactionController.store
 );
 
@@ -298,9 +296,10 @@ router.post(
  *         description: Internal Server Error!
  */
 router.delete(
-  "/transactions/:id",
+  '/transactions/:id',
   AuthMiddleware,
   TransactionValidator.destroy,
+  handleValidation,
   TransactionController.destroy
 );
 

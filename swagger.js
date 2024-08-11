@@ -1,33 +1,33 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 exports.swagger = (app) => {
   const options = {
     definition: {
-      servers: [{ url: "http://localhost:4000" }],
-      openapi: "3.0.0",
+      servers: [{ url: 'http://localhost:4000' }],
+      openapi: '3.0.0',
       info: {
-        title: "Warmad Cashier App",
-        description: "Cashier application for Madura shop",
-        version: "1.0.0",
+        title: 'Warmad Cashier App',
+        description: 'Cashier application for Madura shop',
+        version: '1.0.0',
       },
       components: {
         securitySchemes: {
           bearerAuth: {
-            type: "apiKey",
-            name: "authorization",
-            scheme: "bearer",
-            in: "header",
+            type: 'apiKey',
+            name: 'authorization',
+            scheme: 'bearer',
+            in: 'header',
           },
         },
       },
       bearerAuth: {
-        type: "http",
-        scheme: "bearer",
+        type: 'http',
+        scheme: 'bearer',
       },
     },
     // looks for configuration in specified directories
-    apis: ["./routes/*.js"],
+    apis: ['./routes/*.js'],
   };
 
   app.use(`/docs`, swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options)));
@@ -37,7 +37,7 @@ exports.swagger = (app) => {
 
   // Documentation in JSON format
   app.get(`/docs.json`, (req, res) => {
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
 };
