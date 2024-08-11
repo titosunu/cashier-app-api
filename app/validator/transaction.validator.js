@@ -1,4 +1,4 @@
-const { check, validationResult, param } = require('express-validator');
+const { check, param } = require('express-validator');
 const Product = require('../model/product.model');
 const User = require('../model/auth.model');
 const Transaction = require('../model/transaction.model');
